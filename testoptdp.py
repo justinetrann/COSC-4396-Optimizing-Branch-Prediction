@@ -9,22 +9,25 @@ class BHTVisualizer:
         self.bht = self.initialize_bht(num_entries)
 
         # Create widgets
-        self.title_label = tk.Label(root, text="Branch History Table Visualizer", font=("Helvetica", 10))
+        self.title_label = tk.Label(root, text="Branch History Table Visualizer\n", font=("Helvetica", 10))
         self.title_label.pack()
+
+        self.subtitle_label = tk.Label(root, text="Below shows the initial program executed by the user upon powering up the computer", font=("Helvetica", 10))
+        self.subtitle_label.pack()
 
         self.legend_frame = tk.Frame(root)
         self.legend_frame.pack(side=tk.LEFT, anchor=tk.NW)
 
-        self.legend_taken = tk.Label(self.legend_frame, text="Taken = 1", fg="green",  font=("Helvetica", 10))
+        self.legend_taken = tk.Label(self.legend_frame, text="Taken = 1", fg="green", font=("Helvetica", 10))
         self.legend_taken.pack()
 
         self.legend_not_taken = tk.Label(self.legend_frame, text="Not Taken = 0", fg="red", font=("Helvetica", 10))
         self.legend_not_taken.pack()
 
         tk.Label(root, text="\n").pack()
-        
-        self.canvas_title_label = tk.Label(root, text="Predicted by Decision Tree", font=("Helvetica", 10))
-        self.canvas_title_label.pack(side=tk.LEFT)
+
+        self.canvas_title_label_predicted = tk.Label(root, text="Predicted by Decision Tree", font=("Helvetica", 10))
+        self.canvas_title_label_predicted.pack(side=tk.LEFT)
 
         canvas_width = num_entries * (50 + 10)
         canvas_height = 2 * (50 + 10)
@@ -32,12 +35,11 @@ class BHTVisualizer:
         self.predicted_canvas = tk.Canvas(root, width=canvas_width, height=canvas_height)
         self.predicted_canvas.pack(side=tk.LEFT)
 
-        self.canvas_title_label = tk.Label(root, text="Actual Prediction", font=("Helvetica", 10))
-        self.canvas_title_label.pack(side=tk.LEFT)
+        self.canvas_title_label_actual = tk.Label(root, text="Actual Prediction", font=("Helvetica", 10))
+        self.canvas_title_label_actual.pack(side=tk.LEFT)
 
         self.actual_canvas = tk.Canvas(root, width=canvas_width, height=canvas_height)
         self.actual_canvas.pack(side=tk.LEFT)
-
 
         self.predicted_bht()
         self.actual_bht()
