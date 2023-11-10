@@ -8,9 +8,6 @@ class BHTVisualizer:
         # Initialize the BHT
         self.bht = self.initialize_bht(num_entries)
 
-        # Initialize the BHT
-        self.bht = self.initialize_bht(num_entries)
-
         # Create widgets
         self.title_label = tk.Label(root, text="Branch History Table Visualizer", font=("Helvetica", 10))
         self.title_label.pack()
@@ -18,10 +15,10 @@ class BHTVisualizer:
         self.legend_frame = tk.Frame(root)
         self.legend_frame.pack(side=tk.LEFT, anchor=tk.NW)
 
-        self.legend_taken = tk.Label(self.legend_frame, text="Taken = 1", fg="green")
+        self.legend_taken = tk.Label(self.legend_frame, text="Taken = 1", fg="green",  font=("Helvetica", 10))
         self.legend_taken.pack()
 
-        self.legend_not_taken = tk.Label(self.legend_frame, text="Not Taken = 0", fg="red")
+        self.legend_not_taken = tk.Label(self.legend_frame, text="Not Taken = 0", fg="red", font=("Helvetica", 10))
         self.legend_not_taken.pack()
 
         tk.Label(root, text="\n").pack()
@@ -32,27 +29,36 @@ class BHTVisualizer:
         canvas_width = num_entries * (50 + 10)
         canvas_height = 2 * (50 + 10)
 
-        self.canvas = tk.Canvas(root, width=canvas_width, height=canvas_height)
-        self.canvas.pack(side=tk.LEFT)
+        self.predicted_canvas = tk.Canvas(root, width=canvas_width, height=canvas_height)
+        self.predicted_canvas.pack(side=tk.LEFT)
 
-        self.update_canvas()
+        self.canvas_title_label = tk.Label(root, text="Actual Prediction", font=("Helvetica", 10))
+        self.canvas_title_label.pack(side=tk.LEFT)
 
+        self.actual_canvas = tk.Canvas(root, width=canvas_width, height=canvas_height)
+        self.actual_canvas.pack(side=tk.LEFT)
+
+
+        self.predicted_bht()
+        self.actual_bht()
+
+    # Setting Up Predicted BHT
     def initialize_bht(self, num_entries):
         return [0] * num_entries
-
+    
     def update_bht(self, index, outcome):
         self.bht[index] = outcome
 
-    def update_canvas(self):
-        self.canvas.delete("all")
+    def predicted_bht(self):
+        self.predicted_canvas.delete("all")
         x = 20
         y = 50
 
         for i, entry in enumerate(self.bht):
             color = "green" if entry == 1 else "red"
-            self.canvas.create_rectangle(x, y, x + 40, y + 40)
-            self.canvas.create_text(x + 20, y - 10, text=f"a={i}", fill="black")
-            self.canvas.create_text(x + 20, y + 20, text=str(entry), fill=color)
+            self.predicted_canvas.create_rectangle(x, y, x + 40, y + 40)
+            self.predicted_canvas.create_text(x + 20, y - 10, text=f"a={i}", fill="black")
+            self.predicted_canvas.create_text(x + 20, y + 20, text=str(entry), fill=color)
             x += 40 + 10
 
         # Move to the next row after displaying a certain number of entries per row
@@ -60,13 +66,30 @@ class BHTVisualizer:
             x = 20
             y += 40 + 10
 
+    def actual_bht(self):
+        self.actual_canvas.delete("all")
+        x = 20
+        y = 50
+
+        for i, entry in enumerate(self.bht):
+            color = "green" if entry == 1 else "red"
+            self.actual_canvas.create_rectangle(x, y, x + 40, y + 40)
+            self.actual_canvas.create_text(x + 20, y - 10, text=f"a={i}", fill="black")
+            self.actual_canvas.create_text(x + 20, y + 20, text=str(entry), fill=color)
+            x += 40 + 10
+
+        # Move to the next row after displaying a certain number of entries per row
+        if (i + 1) % 8 == 0:
+            x = 20
+            y += 40 + 10
 
     def reset_bht(self):
         self.bht = self.initialize_bht(len(self.bht))
-        self.update_canvas()
+        self.predicted_bht()
+        self.actual_bht()
 
 if __name__ == "__main__":
     root = tk.Tk()
-    num_entries = 16  # Change this to the desired number of BHT entries
+    num_entries = 10
     app = BHTVisualizer(root, num_entries)
     root.mainloop()
