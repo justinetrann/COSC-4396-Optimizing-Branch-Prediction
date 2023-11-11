@@ -1,4 +1,6 @@
 import tkinter as tk
+from tkinter import filedialog
+
 
 class BHTVisualizer:
     def __init__(self, root, num_entries):
@@ -35,7 +37,7 @@ class BHTVisualizer:
         self.predicted_canvas = tk.Canvas(root, width=canvas_width, height=canvas_height)
         self.predicted_canvas.pack(side=tk.LEFT)
 
-        self.canvas_title_label_actual = tk.Label(root, text="Actual Prediction", font=("Helvetica", 10))
+        self.canvas_title_label_actual = tk.Label(root, text="Actual Execution", font=("Helvetica", 10))
         self.canvas_title_label_actual.pack(side=tk.LEFT)
 
         self.actual_canvas = tk.Canvas(root, width=canvas_width, height=canvas_height)
