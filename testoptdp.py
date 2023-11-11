@@ -1,11 +1,12 @@
 import tkinter as tk
-from tkinter import filedialog
-
 
 class BHTVisualizer:
     def __init__(self, root, num_entries):
         self.root = root
         self.root.title("Branch History Table Visualizer")
+
+        # Reading Data and Store into array
+        self.file_content = self.read_file('data.txt')
 
         # Initialize the BHT
         self.bht = self.initialize_bht(num_entries)
@@ -14,8 +15,11 @@ class BHTVisualizer:
         self.title_label = tk.Label(root, text="Branch History Table Visualizer\n", font=("Helvetica", 10))
         self.title_label.pack()
 
-        self.subtitle_label = tk.Label(root, text="Below shows the initial program executed by the user upon powering up the computer", font=("Helvetica", 10))
+        self.subtitle_label = tk.Label(root, text="Below shows the initial program executed by the user upon powering up the computer:", font=("Helvetica", 10))
         self.subtitle_label.pack()
+
+        self.file_content_label = tk.Label(root, text=' | '.join(self.file_content), font=("Helvetica", 10))
+        self.file_content_label.pack()
 
         self.legend_frame = tk.Frame(root)
         self.legend_frame.pack(side=tk.LEFT, anchor=tk.NW)
@@ -91,6 +95,15 @@ class BHTVisualizer:
         self.bht = self.initialize_bht(len(self.bht))
         self.predicted_bht()
         self.actual_bht()
+
+    def read_file(self, file_path):
+        try:
+            with open(file_path, 'r') as file:
+                content = file.readlines()
+                return [line.strip() for line in content]
+        except FileNotFoundError:
+            print(f"File {file_path} not found.")
+            return []
 
 if __name__ == "__main__":
     root = tk.Tk()
