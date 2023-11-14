@@ -15,6 +15,16 @@ class BHTVisualizer:
         self.title_label = tk.Label(root, text="Branch History Table Visualizer\n", font=("Helvetica", 10))
         self.title_label.pack()
 
+        text_content = (
+            "Key:\n"
+            "(1) Web Browser:\nGoogle Chrome, Microsoft Edge, Mozilla Firefox\n\n"
+            "(2) Office Suite:\nMicrosoft Word, Microsoft Excel, Microsoft PowerPoint\n\n"
+            "(3) Media Player:\nWindows Media Player, Spotify\n\n"
+            "(4) Email Client:\nMicrosoft Outlook, Mozilla Thunderbird\n"
+        )
+        self.subtitle_label = tk.Label(root, text=text_content, font=("Helvetica", 10))
+        self.subtitle_label.pack()
+
         self.subtitle_label = tk.Label(root, text="Below shows the initial program executed by the user upon powering up the computer:", font=("Helvetica", 10))
         self.subtitle_label.pack()
 
