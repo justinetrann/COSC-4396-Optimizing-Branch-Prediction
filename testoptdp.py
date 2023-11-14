@@ -7,6 +7,7 @@ class BHTVisualizer:
 
         # Reading Data and Store into array
         self.file_content = self.read_file('data.txt')
+        self.actual_execution_content = self.read_file('actualExecution.txt')
 
         # Initialize the BHT
         self.bht = self.initialize_bht(num_entries)
@@ -28,7 +29,7 @@ class BHTVisualizer:
         self.subtitle_label = tk.Label(root, text="Below shows the initial program executed by the user upon powering up the computer:", font=("Helvetica", 10))
         self.subtitle_label.pack()
 
-        self.file_content_label = tk.Label(root, text=' | '.join(self.file_content), font=("Helvetica", 10))
+        self.file_content_label = tk.Label(root, text='\n'.join(self.file_content), font=("Helvetica", 10))
         self.file_content_label.pack()
 
         self.legend_frame = tk.Frame(root)
@@ -56,6 +57,12 @@ class BHTVisualizer:
 
         self.actual_canvas = tk.Canvas(root, width=canvas_width, height=canvas_height)
         self.actual_canvas.pack(side=tk.LEFT)
+
+        self.subtitle_label = tk.Label(root, text="Actaul Execution by User: ", font=("Helvetica", 10))
+        self.subtitle_label.pack()
+
+        self.actual_execution_content = tk.Label(root, text='\n'.join(self.actual_execution_content), font=("Helvetica", 10))
+        self.actual_execution_content.pack()
 
         self.predicted_bht()
         self.actual_bht()

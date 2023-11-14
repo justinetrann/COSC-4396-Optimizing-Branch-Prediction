@@ -1,7 +1,10 @@
-Google Chrome
-Microsoft Word
-Spotify
-Google Chrome
-Microsoft Outlook
-Microsoft Edge
-Google Chrome
+1) Google Chrome | Microsoft Word | Spotify | Google Chrome | Microsoft Outlook | Google Chrome
+2) Microsoft Edge | Microsoft Edge | Google Chrome | Microsoft Edge | Mozilla Firefox | Microsoft Edge
+3) Google Chrome | Mozilla Thunderbird | Mozilla Thunderbird | Microsoft Edge | Mozilla Thunderbird | Microsoft Outlook
+4) Microsoft Word | Microsoft Edge | Microsoft Word | Mozilla Thunderbird | Microsoft Word | Microsoft Word
+5) Spotify | Microsoft Outlook | Microsoft Excel | Spotify | Microsoft Word | Spotify
+6) Microsoft Edge | Microsoft Outlook | Microsoft Outlook | Microsoft Outlook | Microsoft Outlook | Windows Media Player
+7) Google Chrome | Google Chrome | Microsoft Edge | Google Chrome | Microsoft Outlook | Google Chrome
+8) Mozilla Thunderbird | Google Chrome | Mozilla Thunderbird | Mozilla Thunderbird | Windows Media Player | Mozilla Thunderbird
+9) Microsoft PowerPoint | Google Chrome | Microsoft PowerPoint | Spotify | Microsoft PowerPoint | Microsoft PowerPoint
+10) Google Chrome | Microsoft Edge | Microsoft Edge | Microsoft Edge | Mozilla Thunderbird | Microsoft Edge
