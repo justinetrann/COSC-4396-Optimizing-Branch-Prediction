@@ -16,49 +16,46 @@ class BHTVisualizer:
         self.title_label = tk.Label(root, text="Branch History Table Visualizer\n", font=("Helvetica", 10))
         self.title_label.pack()
 
-        text_content = (
-            "Key:\n"
-            "(1) Web Browser:\nGoogle Chrome, Microsoft Edge, Mozilla Firefox\n\n"
-            "(2) Office Suite:\nMicrosoft Word, Microsoft Excel, Microsoft PowerPoint\n\n"
-            "(3) Media Player:\nWindows Media Player, Spotify\n\n"
-            "(4) Email Client:\nMicrosoft Outlook, Mozilla Thunderbird\n"
-        )
-        self.subtitle_label = tk.Label(root, text=text_content, font=("Helvetica", 10))
-        self.subtitle_label.pack()
-
-        self.subtitle_label = tk.Label(root, text="Below shows the initial program executed by the user upon powering up the computer:", font=("Helvetica", 10))
-        self.subtitle_label.pack()
-
-        self.file_content_label = tk.Label(root, text='\n'.join(self.file_content), font=("Helvetica", 10))
-        self.file_content_label.pack()
-
         self.legend_frame = tk.Frame(root)
         self.legend_frame.pack(side=tk.LEFT, anchor=tk.NW)
 
-        self.legend_taken = tk.Label(self.legend_frame, text="Taken = 1", fg="green", font=("Helvetica", 10))
-        self.legend_taken.pack()
+        self.subtitle_label = tk.Label(self.legend_frame, text="Key:\n"
+                    "(1) Web Browser:\nGoogle Chrome, Microsoft Edge, Mozilla Firefox\n\n"
+                    "(2) Office Suite:\nMicrosoft Word, Microsoft Excel, Microsoft PowerPoint\n\n"
+                    "(3) Media Player:\nWindows Media Player, Spotify\n\n"
+                    "(4) Email Client:\nMicrosoft Outlook, Mozilla Thunderbird\n",
+                    font=("Helvetica", 10))
+        self.subtitle_label.pack(anchor=tk.W, padx=250)
 
-        self.legend_not_taken = tk.Label(self.legend_frame, text="Not Taken = 0", fg="red", font=("Helvetica", 10))
-        self.legend_not_taken.pack()
+        self.subtitle_label = tk.Label(self.legend_frame, text="Below shows the initial program executed by the user upon powering up the computer:", font=("Helvetica", 10), fg="blue")
+        self.subtitle_label.pack()
 
-        tk.Label(root, text="\n").pack()
+        self.file_content_label = tk.Label(self.legend_frame, text='\n'.join(self.file_content), font=("Helvetica", 10))
+        self.file_content_label.pack(anchor=tk.W, padx=10)
 
-        self.canvas_title_label_predicted = tk.Label(root, text="Predicted by Decision Tree", font=("Helvetica", 10))
-        self.canvas_title_label_predicted.pack(side=tk.LEFT)
+        self.legend_taken = tk.Label(root, text="Taken = 1", fg="green", font=("Helvetica", 10))
+        self.legend_taken.pack(anchor=tk.W, padx=10)
 
+        self.legend_not_taken = tk.Label(root, text="Not Taken = 0", fg="red", font=("Helvetica", 10))
+        self.legend_not_taken.pack(anchor=tk.W, padx=10)
+
+        # Setting Up Widget based on num_entries
         canvas_width = num_entries * (50 + 10)
         canvas_height = 2 * (50 + 10)
 
-        self.predicted_canvas = tk.Canvas(root, width=canvas_width, height=canvas_height)
-        self.predicted_canvas.pack(side=tk.LEFT)
+        self.canvas_title_label_predicted = tk.Label(root, text="Predicted by Decision Tree", font=("Helvetica", 10), fg="purple")
+        self.canvas_title_label_predicted.pack()
 
-        self.canvas_title_label_actual = tk.Label(root, text="Actual Execution", font=("Helvetica", 10))
-        self.canvas_title_label_actual.pack(side=tk.LEFT)
+        self.predicted_canvas = tk.Canvas(root, width=canvas_width, height=canvas_height)
+        self.predicted_canvas.pack()
+
+        self.canvas_title_label_actual = tk.Label(root, text="Actual Execution", font=("Helvetica", 10), fg="purple")
+        self.canvas_title_label_actual.pack()
 
         self.actual_canvas = tk.Canvas(root, width=canvas_width, height=canvas_height)
-        self.actual_canvas.pack(side=tk.LEFT)
+        self.actual_canvas.pack()
 
-        self.subtitle_label = tk.Label(root, text="Actaul Execution by User: ", font=("Helvetica", 10))
+        self.subtitle_label = tk.Label(root, text="Execution by User: ", font=("Helvetica", 10), fg="blue")
         self.subtitle_label.pack()
 
         self.actual_execution_content = tk.Label(root, text='\n'.join(self.actual_execution_content), font=("Helvetica", 10))
