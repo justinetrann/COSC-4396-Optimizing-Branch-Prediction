@@ -6,8 +6,8 @@ class BHTVisualizer:
         self.root.title("Branch History Table Visualizer")
 
         # Reading Data and Store into array
-        self.file_content = self.read_file('data.txt')
-        self.actual_execution_content = self.read_file('actualExecution.txt')
+        self.file_content = self.read_file('data.csv')
+        self.actual_execution_content = self.read_file('actualExecution.csv')
 
         # Initialize the BHT
         self.bht = self.initialize_bht(num_entries)
