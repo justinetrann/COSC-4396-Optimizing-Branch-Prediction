@@ -1,4 +1,8 @@
 import tkinter as tk
+from tkinter import ttk
+import pandas as pd
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
 
 class BHTVisualizer:
     def __init__(self, root, num_entries):
@@ -6,7 +10,6 @@ class BHTVisualizer:
         self.root.title("Branch History Table Visualizer")
 
         # Reading Data and Store into array
-        self.file_content = self.read_file('data.csv')
         self.actual_execution_content = self.read_file('actualExecution.csv')
 
         # Initialize the BHT
@@ -26,12 +29,6 @@ class BHTVisualizer:
                     "(4) Email Client:\nMicrosoft Outlook, Mozilla Thunderbird\n",
                     font=("Helvetica", 10))
         self.subtitle_label.pack(anchor=tk.W, padx=250)
-
-        self.subtitle_label = tk.Label(self.legend_frame, text="Below shows the initial program executed by the user upon powering up the computer:", font=("Helvetica", 10), fg="blue")
-        self.subtitle_label.pack()
-
-        self.file_content_label = tk.Label(self.legend_frame, text='\n'.join(self.file_content), font=("Helvetica", 10))
-        self.file_content_label.pack(anchor=tk.W, padx=10)
 
         self.legend_taken = tk.Label(root, text="Taken = 1", fg="green", font=("Helvetica", 10))
         self.legend_taken.pack(anchor=tk.W, padx=10)
@@ -61,6 +58,19 @@ class BHTVisualizer:
         self.actual_execution_content = tk.Label(root, text='\n'.join(self.actual_execution_content), font=("Helvetica", 10))
         self.actual_execution_content.pack()
 
+        # Create a Treeview widget to display the table
+        self.subtitle_label = tk.Label(self.legend_frame, text="Decision Tree Predicted Application\n", font=("Helvetica", 10), fg="blue")
+        self.subtitle_label.pack()
+
+        self.tree = ttk.Treeview(self.legend_frame)
+        self.tree["columns"] = ("Category", "Predicted Application", "User Profile")
+        self.tree.heading("#0", text="Index")
+        self.tree.heading("Category", text="Category")
+        self.tree.heading("Predicted Application", text="Predicted Application")
+        self.tree.heading("User Profile", text="User Profile")
+        self.tree.pack()
+
+        self.decision_tree()
         self.predicted_bht()
         self.actual_bht()
 
@@ -119,6 +129,43 @@ class BHTVisualizer:
             print(f"File {file_path} not found.")
             return []
 
+    def decision_tree(self):
+        # Read data from CSV - load dataset
+        col_names = ['Category', 'Application', 'Occurrences', 'User Profile']
+        df = pd.read_csv("data.csv", header=0, names=col_names)
+
+        # One-hot encode categorical variables
+        df_encoded = pd.get_dummies(df, columns=['Category', 'User Profile'])
+
+        # Separate dataset features and target variable
+        feature_cols = ['Category_Web Browser', 'Category_Office Suite', 'Category_Media Player', 'Category_Email Client',
+                        'User Profile_Admin', 'User Profile_Guest', 'User Profile_User1', 'User Profile_User2',
+                        'Occurrences']
+        X = df_encoded[feature_cols]
+        y = df_encoded['Application']
+
+        # Split dataset into training set and test set
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=1)  # 70% training and 30% test
+
+        # Train a Decision Tree Classifier
+        clf = DecisionTreeClassifier()
+        clf = clf.fit(X_train, y_train)
+
+        # Predict the missing values
+        missing_values = pd.DataFrame({'Category': ['Web Browser', 'Office Suite', 'Media Player', 'Email Client'],
+                                    'User Profile': ['Admin', 'Admin', 'Admin', 'Admin'],
+                                    'Occurrences': [0, 0, 0, 0]})  # Assuming default occurrence value is 0
+        missing_values_encoded = pd.get_dummies(missing_values, columns=['Category', 'User Profile'])
+
+        # Ensure that all columns used in training are present in missing_values_encoded
+        missing_values_encoded = missing_values_encoded.reindex(columns=X.columns, fill_value=0)
+
+        missing_values['Predicted Application'] = clf.predict(missing_values_encoded[feature_cols])
+
+        # Display the completed table in the Treeview widget
+        for index, row in missing_values.iterrows():
+            self.tree.insert("", tk.END, values=(row['Category'], row['Predicted Application'], row['Occurrences'], row['User Profile']))
+        
 if __name__ == "__main__":
     root = tk.Tk()
     num_entries = 10

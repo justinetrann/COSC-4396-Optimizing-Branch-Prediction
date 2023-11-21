@@ -1,10 +1,41 @@
-Google Chrome,Microsoft Word,Spotify,Google Chrome,Microsoft Outlook,Google Chrome
-Microsoft Edge,Microsoft Edge,Google Chrome,Microsoft Edge,Mozilla Firefox,Microsoft Edge
-Google Chrome,Mozilla Thunderbird,Mozilla Thunderbird,Microsoft Edge,Mozilla Thunderbird,Microsoft Outlook
-Microsoft Word,Microsoft Edge,Microsoft Word,Mozilla Thunderbird,Microsoft Word,Microsoft Word
-Spotify,Microsoft Outlook,Microsoft Excel,Spotify,Microsoft Word,Spotify
-Microsoft Edge,Microsoft Outlook,Microsoft Outlook,Microsoft Outlook,Microsoft Outlook,Windows Media Player
-Google Chrome,Google Chrome,Microsoft Edge,Google Chrome,Microsoft Outlook,Google Chrome
-Mozilla Thunderbird,Google Chrome,Mozilla Thunderbird,Mozilla Thunderbird,Windows Media Player,Mozilla Thunderbird
-Microsoft PowerPoint,Google Chrome,Microsoft PowerPoint,Spotify,Microsoft PowerPoint,Microsoft PowerPoint
-Google Chrome,Microsoft Edge,Microsoft Edge,Microsoft Edge,Mozilla Thunderbird,Microsoft Edge
+Category,Application,Occurrences,User Profile
+Web Browser,Google Chrome,82,Admin
+Web Browser,Microsoft Edge,46,Admin
+Web Browser,Mozilla Firefox,73,Admin
+Web Browser,Google Chrome,19,Guest
+Web Browser,Microsoft Edge,51,Guest
+Web Browser,Mozilla Firefox,92,Guest
+Web Browser,Google Chrome,64,User1
+Web Browser,Microsoft Edge,28,User1
+Web Browser,Mozilla Firefox,13,User1
+Web Browser,Google Chrome,41,User2
+Web Browser,Microsoft Edge,77,User2
+Web Browser,Mozilla Firefox,54,User2
+Office Suite,Microsoft Word,94,Admin
+Office Suite,Microsoft Excel,60,Admin
+Office Suite,Microsoft PowerPoint,37,Admin
+Office Suite,Microsoft Word,2,Guest
+Office Suite,Microsoft Excel,86,Guest
+Office Suite,Microsoft PowerPoint,10,Guest
+Office Suite,Microsoft Word,75,User1
+Office Suite,Microsoft Excel,49,User1
+Office Suite,Microsoft PowerPoint,15,User1
+Office Suite,Microsoft Word,33,User2
+Office Suite,Microsoft Excel,28,User2
+Office Suite,Microsoft PowerPoint,90,User2
+Media Player,Spotify,61,Admin
+Media Player,Windows Media Player,48,Admin
+Media Player,Spotify,95,Guest
+Media Player,Windows Media Player,27,Guest
+Media Player,Spotify,84,User1
+Media Player,Windows Media Player,68,User1
+Media Player,Spotify,23,User2
+Media Player,Windows Media Player,89,User2
+Email Client,Microsoft Outlook,12,Admin
+Email Client,Mozilla Thunderbird,39,Admin
+Email Client,Microsoft Outlook,57,Guest
+Email Client,Mozilla Thunderbird,8,Guest
+Email Client,Microsoft Outlook,72,User1
+Email Client,Mozilla Thunderbird,45,User1
+Email Client,Microsoft Outlook,35,User2
+Email Client,Mozilla Thunderbird,99,User2
