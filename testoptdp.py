@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 import pandas as pd
+import csv
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
 
@@ -53,26 +54,35 @@ class BHTVisualizer:
         self.actual_canvas.pack()
 
         self.subtitle_label = tk.Label(root, text="Execution by User: ", font=("Helvetica", 10), fg="blue")
-        self.subtitle_label.pack()
+        self.subtitle_label.pack(pady=10)
 
         self.actual_execution_content = tk.Label(root, text='\n'.join(self.actual_execution_content), font=("Helvetica", 10))
         self.actual_execution_content.pack()
 
-        # Create a Treeview widget to display the table
-        self.subtitle_label = tk.Label(self.legend_frame, text="Decision Tree Predicted Application\n", font=("Helvetica", 10), fg="blue")
-        self.subtitle_label.pack()
-
-        self.tree = ttk.Treeview(self.legend_frame)
-        self.tree["columns"] = ("Category", "Predicted Application", "User Profile")
-        self.tree.heading("#0", text="Index")
-        self.tree.heading("Category", text="Category")
-        self.tree.heading("Predicted Application", text="Predicted Application")
-        self.tree.heading("User Profile", text="User Profile")
-        self.tree.pack()
-
-        self.decision_tree()
         self.predicted_bht()
         self.actual_bht()
+
+        # Drowndown menu for user profile selection
+        self.user_profile_label = tk.Label(self.legend_frame, text="Select User Profile:", font=("Helvetica", 10), fg="blue")
+        self.user_profile_label.pack()
+
+        self.user_profiles = ['Admin', 'Guest', 'User1', 'User2']
+        self.selected_user_profile = tk.StringVar(value=self.user_profiles[0])
+
+        self.user_profile_dropdown = ttk.Combobox(self.legend_frame, values=self.user_profiles, textvariable=self.selected_user_profile, state="readonly")
+        self.user_profile_dropdown.pack()
+
+        self.user_profile_dropdown.bind("<<ComboboxSelected>>", self.user_profile_selected)
+       
+        # Create a Treeview widget to display the table
+        self.tree = ttk.Treeview(self.legend_frame, columns=['Category', 'Application', 'Occurrences', 'User Profile'], show='headings')
+        self.tree.heading('Category', text='Category')
+        self.tree.heading('Application', text='Application')
+        self.tree.heading('Occurrences', text='Occurrences')
+        self.tree.heading('User Profile', text='User Profile')
+        self.tree.pack(pady=10)
+
+        self.decision_tree()
 
     # Setting Up Predicted BHT
     def initialize_bht(self, num_entries):
@@ -129,43 +139,31 @@ class BHTVisualizer:
             print(f"File {file_path} not found.")
             return []
 
+    def user_profile_selected(self, event):
+        self.decision_tree()
+
     def decision_tree(self):
-        # Read data from CSV - load dataset
+        # collecting data from csv file
         col_names = ['Category', 'Application', 'Occurrences', 'User Profile']
         df = pd.read_csv("data.csv", header=0, names=col_names)
 
-        # One-hot encode categorical variables
-        df_encoded = pd.get_dummies(df, columns=['Category', 'User Profile'])
+        # filter row of choice
+        selected_profile = self.selected_user_profile.get()
+        filtered_df = df[df['User Profile'] == selected_profile]
+        print("Selected Profile:", selected_profile)
+        print("Filtered DataFrame:")
+        print(filtered_df)
 
-        # Separate dataset features and target variable
-        feature_cols = ['Category_Web Browser', 'Category_Office Suite', 'Category_Media Player', 'Category_Email Client',
-                        'User Profile_Admin', 'User Profile_Guest', 'User Profile_User1', 'User Profile_User2',
-                        'Occurrences']
-        X = df_encoded[feature_cols]
-        y = df_encoded['Application']
+        # Clearing current items
+        for item in self.tree.get_children():
+            self.tree.delete(item)
+            
+        # Inserting data
+        for index, row in filtered_df.iterrows():
+            # Use df.columns[-1] to reference the last column dynamically
+            values = (row['Category'], row['Application'], row['Occurrences'], row['User Profile'])
+            self.tree.insert("", "end", values=values)
 
-        # Split dataset into training set and test set
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=1)  # 70% training and 30% test
-
-        # Train a Decision Tree Classifier
-        clf = DecisionTreeClassifier()
-        clf = clf.fit(X_train, y_train)
-
-        # Predict the missing values
-        missing_values = pd.DataFrame({'Category': ['Web Browser', 'Office Suite', 'Media Player', 'Email Client'],
-                                    'User Profile': ['Admin', 'Admin', 'Admin', 'Admin'],
-                                    'Occurrences': [0, 0, 0, 0]})  # Assuming default occurrence value is 0
-        missing_values_encoded = pd.get_dummies(missing_values, columns=['Category', 'User Profile'])
-
-        # Ensure that all columns used in training are present in missing_values_encoded
-        missing_values_encoded = missing_values_encoded.reindex(columns=X.columns, fill_value=0)
-
-        missing_values['Predicted Application'] = clf.predict(missing_values_encoded[feature_cols])
-
-        # Display the completed table in the Treeview widget
-        for index, row in missing_values.iterrows():
-            self.tree.insert("", tk.END, values=(row['Category'], row['Predicted Application'], row['Occurrences'], row['User Profile']))
-        
 if __name__ == "__main__":
     root = tk.Tk()
     num_entries = 10
