@@ -1,9 +1,10 @@
 import tkinter as tk
 from tkinter import ttk
 import pandas as pd
-import csv
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
+from sklearn.tree import plot_tree
+import matplotlib.pyplot as plt
 
 class BHTVisualizer:
     def __init__(self, root, num_entries):
@@ -63,7 +64,7 @@ class BHTVisualizer:
         self.actual_bht()
 
         # Drowndown menu for user profile selection
-        self.user_profile_label = tk.Label(self.legend_frame, text="Select User Profile:", font=("Helvetica", 10), fg="blue")
+        self.user_profile_label = tk.Label(self.legend_frame, text="Select User Profile - Test Data - Decision Tree:", font=("Helvetica", 10), fg="blue")
         self.user_profile_label.pack()
 
         self.user_profiles = ['Admin', 'Guest', 'User1', 'User2']
@@ -150,9 +151,6 @@ class BHTVisualizer:
         # filter row of choice
         selected_profile = self.selected_user_profile.get()
         filtered_df = df[df['User Profile'] == selected_profile]
-        print("Selected Profile:", selected_profile)
-        print("Filtered DataFrame:")
-        print(filtered_df)
 
         # Clearing current items
         for item in self.tree.get_children():
@@ -163,6 +161,30 @@ class BHTVisualizer:
             # Use df.columns[-1] to reference the last column dynamically
             values = (row['Category'], row['Application'], row['Occurrences'], row['User Profile'])
             self.tree.insert("", "end", values=values)
+
+        # Prepare data for training the decision tree
+        features = filtered_df[['Category', 'Occurrences', 'User Profile']]
+        target = filtered_df['Application']
+
+        # Encode categorical variables if needed
+        features_encoded = pd.get_dummies(features)
+        features_train, features_test, target_train, target_test = train_test_split(features_encoded, target, test_size=0.2, random_state=42)
+
+        # Train a decision tree classifier
+        clf = DecisionTreeClassifier()
+        clf.fit(features_encoded, target)
+
+        # Make predictions for the existing data
+        predictions = clf.predict(features_encoded)
+        
+        # Visualize the decision tree
+        plt.figure(figsize=(12, 8))
+        plot_tree(clf, feature_names=features_encoded.columns, class_names=target.unique(), filled=True, rounded=True)
+        plt.show()
+
+        # Order of array represents likelihood of each application being started first
+        print("Predicted Applications for the existing data:")
+        print(predictions)       
 
 if __name__ == "__main__":
     root = tk.Tk()
