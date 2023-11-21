@@ -195,6 +195,7 @@ class BHTVisualizer:
     def button_click_handler(self):
         self.view_tree_button_clicked = True
         self.decision_tree()
+        self.view_tree_button_clicked = False
 
 if __name__ == "__main__":
     root = tk.Tk()
