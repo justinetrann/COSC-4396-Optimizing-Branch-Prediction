@@ -54,7 +54,7 @@ class BHTVisualizer:
         self.actual_canvas = tk.Canvas(root, width=canvas_width, height=canvas_height)
         self.actual_canvas.pack()
 
-        self.subtitle_label = tk.Label(root, text="Execution by User: ", font=("Helvetica", 10), fg="blue")
+        self.subtitle_label = tk.Label(root, text="Execution by User Profile: ", font=("Helvetica", 10), fg="blue")
         self.subtitle_label.pack(pady=10)
 
         self.actual_execution_content = tk.Label(root, text='\n'.join(self.actual_execution_content), font=("Helvetica", 10))
@@ -75,6 +75,10 @@ class BHTVisualizer:
 
         self.user_profile_dropdown.bind("<<ComboboxSelected>>", self.user_profile_selected)
        
+        # View Tree
+        self.view_tree_button = tk.Button(self.legend_frame, text="View Tree", command=self.button_click_handler)
+        self.view_tree_button.pack(pady=10)
+
         # Create a Treeview widget to display the table
         self.tree = ttk.Treeview(self.legend_frame, columns=['Category', 'Application', 'Occurrences', 'User Profile'], show='headings')
         self.tree.heading('Category', text='Category')
@@ -173,18 +177,24 @@ class BHTVisualizer:
         # Train a decision tree classifier
         clf = DecisionTreeClassifier()
         clf.fit(features_encoded, target)
-        
-        # Visualize the decision tree
-        plt.figure(figsize=(12, 8))
-        plot_tree(clf, feature_names=features_encoded.columns, class_names=target.unique(), filled=True, rounded=True)
-        plt.show()
-        
+
         # Make predictions for the existing data
         predictions = clf.predict(features_encoded)
+
+        # When Button is clicked
+        if hasattr(self, 'view_tree_button_clicked') and self.view_tree_button_clicked:
+            plt.figure(figsize=(12, 8))
+            plot_tree(clf, feature_names=features_encoded.columns, class_names=target.unique(), filled=True, rounded=True)
+            plt.show()
 
         # Order of array represents likelihood of each application being started first
         print("Predicted Applications for the existing data:")
         print(predictions)       
+
+    # Reactivates tree when button is clicked
+    def button_click_handler(self):
+        self.view_tree_button_clicked = True
+        self.decision_tree()
 
 if __name__ == "__main__":
     root = tk.Tk()
