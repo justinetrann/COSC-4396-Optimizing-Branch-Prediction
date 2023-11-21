@@ -151,6 +151,7 @@ class BHTVisualizer:
         # filter row of choice
         selected_profile = self.selected_user_profile.get()
         filtered_df = df[df['User Profile'] == selected_profile]
+        filtered_df = filtered_df.sort_values(by='Occurrences', ascending=False)
 
         # Clearing current items
         for item in self.tree.get_children():
@@ -168,19 +169,18 @@ class BHTVisualizer:
 
         # Encode categorical variables if needed
         features_encoded = pd.get_dummies(features)
-        features_train, features_test, target_train, target_test = train_test_split(features_encoded, target, test_size=0.2, random_state=42)
 
         # Train a decision tree classifier
         clf = DecisionTreeClassifier()
         clf.fit(features_encoded, target)
-
-        # Make predictions for the existing data
-        predictions = clf.predict(features_encoded)
         
         # Visualize the decision tree
         plt.figure(figsize=(12, 8))
         plot_tree(clf, feature_names=features_encoded.columns, class_names=target.unique(), filled=True, rounded=True)
         plt.show()
+        
+        # Make predictions for the existing data
+        predictions = clf.predict(features_encoded)
 
         # Order of array represents likelihood of each application being started first
         print("Predicted Applications for the existing data:")
