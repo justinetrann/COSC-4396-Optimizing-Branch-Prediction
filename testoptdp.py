@@ -51,7 +51,7 @@ class BHTVisualizer:
         self.actual_canvas = tk.Canvas(root, width=canvas_width, height=canvas_height)
         self.actual_canvas.pack()
 
-        self.subtitle_label = tk.Label(root, text="Activate the initial program by clicking a button with each occurrence regarded as the user's first program launch.", font=("Helvetica", 10), fg="blue")
+        self.subtitle_label = tk.Label(root, text="Start the program with a button click each time it's the user's first program launched", font=("Helvetica", 10), fg="blue")
         self.subtitle_label.pack(pady=10)
 
         self.predicted_bht()
