@@ -113,52 +113,6 @@ class BHTVisualizer:
 
         self.decision_tree()
 
-    # Setting Up Predicted BHT
-    def initialize_bht(self, num_entries):
-        return [0] * num_entries
-    
-    def update_bht(self, index, outcome):
-        self.bht[index] = outcome
-
-    def predicted_bht(self):
-        self.predicted_canvas.delete("all")
-        x = 20
-        y = 50
-
-        for i, entry in enumerate(self.bht):
-            color = "green" if entry == 1 else "red"
-            self.predicted_canvas.create_rectangle(x, y, x + 40, y + 40)
-            self.predicted_canvas.create_text(x + 20, y - 10, text=f"a={i}", fill="black")
-            self.predicted_canvas.create_text(x + 20, y + 20, text=str(entry), fill=color)
-            x += 40 + 10
-
-        # Move to the next row after displaying a certain number of entries per row
-        if (i + 1) % 8 == 0:
-            x = 20
-            y += 40 + 10
-
-    def actual_bht(self):
-        self.actual_canvas.delete("all")
-        x = 20
-        y = 50
-
-        for i, entry in enumerate(self.bht):
-            color = "green" if entry == 1 else "red"
-            self.actual_canvas.create_rectangle(x, y, x + 40, y + 40)
-            self.actual_canvas.create_text(x + 20, y - 10, text=f"a={i}", fill="black")
-            self.actual_canvas.create_text(x + 20, y + 20, text=str(entry), fill=color)
-            x += 40 + 10
-
-        # Move to the next row after displaying a certain number of entries per row
-        if (i + 1) % 8 == 0:
-            x = 20
-            y += 40 + 10
-
-    def reset_bht(self):
-        self.bht = self.initialize_bht(len(self.bht))
-        self.predicted_bht()
-        self.actual_bht()
-
     def user_profile_selected(self, event):
         self.decision_tree()
 
@@ -211,6 +165,52 @@ class BHTVisualizer:
         self.view_tree_button_clicked = True
         self.decision_tree()
         self.view_tree_button_clicked = False
+
+    # Setting Up Predicted BHT
+    def initialize_bht(self, num_entries):
+        return [0] * num_entries
+    
+    def update_bht(self, index, outcome):
+        self.bht[index] = outcome
+
+    def predicted_bht(self):
+        self.predicted_canvas.delete("all")
+        x = 20
+        y = 50
+
+        for i, entry in enumerate(self.bht):
+            color = "green" if entry == 1 else "red"
+            self.predicted_canvas.create_rectangle(x, y, x + 40, y + 40)
+            self.predicted_canvas.create_text(x + 20, y - 10, text=f"a={i}", fill="black")
+            self.predicted_canvas.create_text(x + 20, y + 20, text=str(entry), fill=color)
+            x += 40 + 10
+
+        # Move to the next row after displaying a certain number of entries per row
+        if (i + 1) % 8 == 0:
+            x = 20
+            y += 40 + 10
+
+    def actual_bht(self):
+        self.actual_canvas.delete("all")
+        x = 20
+        y = 50
+
+        for i, entry in enumerate(self.bht):
+            color = "green" if entry == 1 else "red"
+            self.actual_canvas.create_rectangle(x, y, x + 40, y + 40)
+            self.actual_canvas.create_text(x + 20, y - 10, text=f"a={i}", fill="black")
+            self.actual_canvas.create_text(x + 20, y + 20, text=str(entry), fill=color)
+            x += 40 + 10
+
+        # Move to the next row after displaying a certain number of entries per row
+        if (i + 1) % 8 == 0:
+            x = 20
+            y += 40 + 10
+
+    def reset_bht(self):
+        self.bht = self.initialize_bht(len(self.bht))
+        self.predicted_bht()
+        self.actual_bht()
 
 if __name__ == "__main__":
     root = tk.Tk()
