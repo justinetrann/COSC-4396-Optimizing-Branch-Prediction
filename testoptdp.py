@@ -11,9 +11,6 @@ class BHTVisualizer:
         self.root = root
         self.root.title("Branch History Table Visualizer")
 
-        # Reading Data and Store into array
-        self.actual_execution_content = self.read_file('actualExecution.csv')
-
         # Initialize the BHT
         self.bht = self.initialize_bht(num_entries)
 
@@ -56,9 +53,6 @@ class BHTVisualizer:
 
         self.subtitle_label = tk.Label(root, text="Execution by User Profile: ", font=("Helvetica", 10), fg="blue")
         self.subtitle_label.pack(pady=10)
-
-        self.actual_execution_content = tk.Label(root, text='\n'.join(self.actual_execution_content), font=("Helvetica", 10))
-        self.actual_execution_content.pack()
 
         self.predicted_bht()
         self.actual_bht()
