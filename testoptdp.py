@@ -129,15 +129,6 @@ class BHTVisualizer:
         self.predicted_bht()
         self.actual_bht()
 
-    def read_file(self, file_path):
-        try:
-            with open(file_path, 'r') as file:
-                content = file.readlines()
-                return [line.strip() for line in content]
-        except FileNotFoundError:
-            print(f"File {file_path} not found.")
-            return []
-
     def user_profile_selected(self, event):
         self.decision_tree()
 
