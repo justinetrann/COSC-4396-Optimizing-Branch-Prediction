@@ -54,6 +54,36 @@ class BHTVisualizer:
         self.subtitle_label = tk.Label(root, text="Start the program with a button click each time it's the user's first program launched", font=("Helvetica", 10), fg="blue")
         self.subtitle_label.pack(pady=10)
 
+        self.view_tree_button = tk.Button(root, text="Google Chrome")
+        self.view_tree_button.pack(pady=5)
+
+        self.view_tree_button = tk.Button(root, text="Microsoft Edge")
+        self.view_tree_button.pack(pady=5)
+
+        self.view_tree_button = tk.Button(root, text="Mozilla Firefox")
+        self.view_tree_button.pack(pady=5)
+
+        self.view_tree_button = tk.Button(root, text="Microsoft Word")
+        self.view_tree_button.pack(pady=5)
+
+        self.view_tree_button = tk.Button(root, text="Microsoft Excel")
+        self.view_tree_button.pack(pady=5)
+
+        self.view_tree_button = tk.Button(root, text="Microsoft PowerPoint")
+        self.view_tree_button.pack(pady=5)
+
+        self.view_tree_button = tk.Button(root, text="Windows Media Player")
+        self.view_tree_button.pack(pady=5)
+
+        self.view_tree_button = tk.Button(root, text="Spotify")
+        self.view_tree_button.pack(pady=5)
+
+        self.view_tree_button = tk.Button(root, text="Microsoft Outlook")
+        self.view_tree_button.pack(pady=5)
+
+        self.view_tree_button = tk.Button(root, text="Mozilla Thunderbird")
+        self.view_tree_button.pack(pady=5)
+
         self.predicted_bht()
         self.actual_bht()
 
