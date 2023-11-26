@@ -35,23 +35,21 @@ update the queue as taken = 1 or not taken = 0, then update its data in the CSV.
 '''
 
 class BHTVisualizer:
-
-
+    # Contains all labels, comments, and methods in widget
     def __init__(self, root, num_entries):
         self.root = root
         self.root.title("Branch History Table Visualizer")
 
-        # Initialize the BHT
+        # Initialize the BHT with given num_entries assume max 10 entries
         self.bht = self.initialize_bht(num_entries)
         self.counter = 0
 
-        # Create widgets
+        # Create Key for user to understand different categories
         self.title_label = tk.Label(root, text="Branch History Table Visualizer\n", font=("Helvetica", 10))
         self.title_label.pack()
 
         self.legend_frame = tk.Frame(root)
         self.legend_frame.pack(side=tk.LEFT, anchor=tk.NW)
-
         self.subtitle_label = tk.Label(self.legend_frame, text="Key:\n"
                     "(1) Web Browser:\nGoogle Chrome, Microsoft Edge, Mozilla Firefox\n\n"
                     "(2) Office Suite:\nMicrosoft Word, Microsoft Excel, Microsoft PowerPoint\n\n"
@@ -60,6 +58,7 @@ class BHTVisualizer:
                     font=("Helvetica", 10))
         self.subtitle_label.pack(anchor=tk.W, padx=250)
 
+        # Create Legend that allows users to understand queue and prediction made by decision tree
         self.legend_taken = tk.Label(root, text="Taken = 1", fg="green", font=("Helvetica", 10))
         self.legend_taken.pack(anchor=tk.W, padx=10)
 
@@ -73,6 +72,7 @@ class BHTVisualizer:
         canvas_width = num_entries * (50 + 10)
         canvas_height = 2 * (50 + 10)
 
+        # Setting up Queue to be updated by Buttons Clicked by User
         self.canvas_title_label_predicted = tk.Label(root, text="Predicted by Decision Tree", font=("Helvetica", 10), fg="purple")
         self.canvas_title_label_predicted.pack()
 
@@ -85,11 +85,11 @@ class BHTVisualizer:
         self.actual_canvas = tk.Canvas(root, width=canvas_width, height=canvas_height)
         self.actual_canvas.pack()
 
+        # Setting up buttons to allow users to update queue and data.csv
         self.subtitle_label = tk.Label(root, text="Start the program with a button click each time it's the user's first program launched", font=("Helvetica", 10), fg="blue")
         self.subtitle_label.pack(pady=10)
 
-
-
+        # Calling methods, to update queue and allow button interaction
         self.create_buttons()
         self.predicted_bht()
         self.actual_bht()
@@ -100,10 +100,8 @@ class BHTVisualizer:
 
         self.user_profiles = ['Admin', 'Guest', 'User1', 'User2']
         self.selected_user_profile = tk.StringVar(value=self.user_profiles[0])
-
         self.user_profile_dropdown = ttk.Combobox(self.legend_frame, values=self.user_profiles, textvariable=self.selected_user_profile, state="readonly")
         self.user_profile_dropdown.pack()
-
         self.user_profile_dropdown.bind("<<ComboboxSelected>>", self.user_profile_selected)
        
         # View Tree
@@ -118,11 +116,17 @@ class BHTVisualizer:
         self.tree.heading('User Profile', text='User Profile')
         self.tree.pack(pady=10)
 
+        # Calling method to produce decision tree results and table
         self.decision_tree()
 
+    # Determine which user profile has been selected: Admin, Guest, User 1, User 2
     def user_profile_selected(self, event):
         self.decision_tree()
 
+    # Creating Decision Tree:
+    # (1) Given provided data, separate data into 4 groups: Admin, Guest, User 1. and User 2
+    # (2) Create table, from table sort based on occurances
+    # (3) Make predicition on most likely applcation user to select, when turning on PC
     def decision_tree(self):
         global predicted_application
 
@@ -145,6 +149,9 @@ class BHTVisualizer:
             values = (row['Category'], row['Application'], row['Occurrences'], row['User Profile'])
             self.tree.insert("", "end", values=values)
 
+        # Used to update table occurances based on button
+        # When a user clicks a button to a specific application occurance is updated
+        # Representing a branch predicition table, updates
         if hasattr(self, 'selected_application'):
             selected_application = self.selected_application
             selected_profile = self.selected_user_profile.get()
@@ -155,6 +162,7 @@ class BHTVisualizer:
                 # Update occurrences for the selected application and profile
                 df.loc[mask, 'Occurrences'] += 1
 
+        # Place occurance into data.csv
         df.to_csv("data.csv", index=False)
 
         # Prepare data for training the decision tree
@@ -181,19 +189,25 @@ class BHTVisualizer:
         self.predicted_label.config(text=f"Predicted Application: {predicted_application}")
 
 
-    # Reactivates tree when button is clicked
+    # Allows User to View prediction made from, View Tree
+    # Resets view_tree_button_clicked when new user has been changed to view their data
     def button_click_handler(self):
         self.view_tree_button_clicked = True
         self.decision_tree()
         self.view_tree_button_clicked = False
 
-    # Setting Up Predicted BHT
+    # Setting Up Queue for predicted and actual 
     def initialize_bht(self, num_entries):
         return [0] * num_entries
     
+    # Used to update Queue, when user clicks a button
+    # Taken = 1 and Not Taken = 0, used within def on_button_click(self, button_number):
     def update_bht(self, index, outcome):
         self.bht[index] = outcome
 
+    # Created to represent decision tree predicted application
+    # All is set to match the predicted application aka. if it is Google Chrome
+    # Then we will compare Google Chrome == [Button Chosen by user]
     def predicted_bht(self):
         self.predicted_canvas.delete("all")
         x = 20
@@ -211,6 +225,7 @@ class BHTVisualizer:
             x = 20
             y += 40 + 10
 
+    # Created to represent Users Chosen Application
     def actual_bht(self):
         self.actual_canvas.delete("all")
         x = 20
@@ -233,6 +248,7 @@ class BHTVisualizer:
         self.predicted_bht()
         self.actual_bht()
 
+    # Used to Produce buttons to be chosen by user
     def create_buttons(self):
         button_texts = [
             "Google Chrome", "Microsoft Edge", "Mozilla Firefox",
@@ -244,6 +260,8 @@ class BHTVisualizer:
             button = tk.Button(self.root, text=text, command=lambda i=i: self.on_button_click(i + 1))
             button.pack(pady=5)
 
+    # When a user clicks a button, the queue gets updated
+    # And the data.csv gets updated
     def on_button_click(self, button_number):
         if button_number == 1:
             selected_application = "Google Chrome"
@@ -266,10 +284,11 @@ class BHTVisualizer:
         elif button_number == 10:
             selected_application = "Mozilla Thunderbird"
 
-        # Increment a counter from 0 to num_entries
+        # Used to only allow users to click num_entries applcation
         counter = self.counter % len(self.bht)
         self.counter += 1
 
+        # When a user has selected a program Updata Queue
         if selected_application == predicted_application:
             print("Selected application matches the predicted application.")
             self.update_bht(counter, 1)
@@ -281,7 +300,7 @@ class BHTVisualizer:
             self.predicted_bht()
             self.actual_bht()
         
-        # Call decision_tree to update occurrences in the DataFrame
+        # Call decision_tree to update occurrences in the DataFrame, after button has been selected
         self.selected_application = selected_application
         self.decision_tree()
 
