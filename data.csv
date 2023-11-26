@@ -1,6 +1,6 @@
 Category,Application,Occurrences,User Profile
-Web Browser,Google Chrome,82,Admin
-Web Browser,Microsoft Edge,46,Admin
+Web Browser,Google Chrome,86,Admin
+Web Browser,Microsoft Edge,49,Admin
 Web Browser,Mozilla Firefox,73,Admin
 Web Browser,Google Chrome,19,Guest
 Web Browser,Microsoft Edge,51,Guest
@@ -11,7 +11,7 @@ Web Browser,Mozilla Firefox,13,User1
 Web Browser,Google Chrome,41,User2
 Web Browser,Microsoft Edge,77,User2
 Web Browser,Mozilla Firefox,54,User2
-Office Suite,Microsoft Word,94,Admin
+Office Suite,Microsoft Word,95,Admin
 Office Suite,Microsoft Excel,60,Admin
 Office Suite,Microsoft PowerPoint,37,Admin
 Office Suite,Microsoft Word,2,Guest

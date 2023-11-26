@@ -57,6 +57,8 @@ class BHTVisualizer:
         self.subtitle_label = tk.Label(root, text="Start the program with a button click each time it's the user's first program launched", font=("Helvetica", 10), fg="blue")
         self.subtitle_label.pack(pady=10)
 
+
+
         self.create_buttons()
         self.predicted_bht()
         self.actual_bht()
@@ -112,6 +114,18 @@ class BHTVisualizer:
             values = (row['Category'], row['Application'], row['Occurrences'], row['User Profile'])
             self.tree.insert("", "end", values=values)
 
+        if hasattr(self, 'selected_application'):
+            selected_application = self.selected_application
+            selected_profile = self.selected_user_profile.get()
+
+            # Find the row corresponding to the selected application and profile
+            mask = (df['Application'] == selected_application) & (df['User Profile'] == selected_profile)
+            if not df[mask].empty:
+                # Update occurrences for the selected application and profile
+                df.loc[mask, 'Occurrences'] += 1
+
+        df.to_csv("data.csv", index=False)
+        
         # Prepare data for training the decision tree
         features = filtered_df[['Category', 'Occurrences', 'User Profile']]
         target = filtered_df['Application']
@@ -235,6 +249,11 @@ class BHTVisualizer:
             self.update_bht(counter, 0)
             self.predicted_bht()
             self.actual_bht()
+        
+        # Call decision_tree to update occurrences in the DataFrame
+        self.selected_application = selected_application
+        self.decision_tree()
+
 
 if __name__ == "__main__":
     root = tk.Tk()
