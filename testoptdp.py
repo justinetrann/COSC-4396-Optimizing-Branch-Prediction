@@ -88,6 +88,8 @@ class BHTVisualizer:
         self.decision_tree()
 
     def decision_tree(self):
+        global predicted_application
+
         # collecting data from csv file
         col_names = ['Category', 'Application', 'Occurrences', 'User Profile']
         df = pd.read_csv("data.csv", header=0, names=col_names)
@@ -127,9 +129,7 @@ class BHTVisualizer:
             plot_tree(clf, feature_names=features_encoded.columns, class_names=target.unique(), filled=True, rounded=True)
             plt.show()
 
-        # Order of array represents likelihood of each application being started first
-        print("Predicted Applications for the existing data:")
-        print(predictions)       
+        predicted_application = predictions[0]
 
     # Reactivates tree when button is clicked
     def button_click_handler(self):
@@ -195,27 +195,31 @@ class BHTVisualizer:
             button.pack(pady=5)
 
     def on_button_click(self, button_number):
-        print(f"Button {button_number} clicked")
         if button_number == 1:
-            print("Google Chrome is selected.")
+            selected_application = "Google Chrome"
         elif button_number == 2:
-            print("Microsoft Edge is selected.")
+            selected_application = "Microsoft Edge"
         elif button_number == 3:
-            print("Mozilla Firefox is selected.")
+            selected_application = "Mozilla Firefox"
         elif button_number == 4:
-            print("Microsoft Word is selected.")
+            selected_application = "Microsoft Word"
         elif button_number == 5:
-            print("Microsoft Excel is selected.")
+            selected_application = "Microsoft Excel"
         elif button_number == 6:
-            print("Microsoft PowerPoint is selected.")
+            selected_application = "Microsoft PowerPoint"
         elif button_number == 7:
-            print("Windows Media Player is selected.")
+            selected_application = "Windows Media Player"
         elif button_number == 8:
-            print("Spotify is selected.")
+            selected_application = "Spotify"
         elif button_number == 9:
-            print("Microsoft Outlook is selected.")
+            selected_application = "Microsoft Outlook"
         elif button_number == 10:
-            print("Mozilla Thunderbird is selected.")
+            selected_application = "Mozilla Thunderbird"
+        
+        if selected_application == predicted_application:
+            print("Selected application matches the predicted application.")
+        else:
+            print("Selected application does not match the predicted application.")
 
 if __name__ == "__main__":
     root = tk.Tk()
