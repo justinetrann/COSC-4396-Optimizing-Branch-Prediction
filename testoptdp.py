@@ -5,7 +5,38 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.tree import plot_tree
 import matplotlib.pyplot as plt
 
+'''
+Name: Justine Tran
+UHID: 1986572
+
+The purpose of this project was to research the Worst-Case Execution Time (WCET) 
+of a branch prediction table when combined with a decision tree.
+
+Originally integrated for testing in gem5, however, due to some issues 
+with missing or unincorporated functions in gem5, we created a 
+dummy version of a branch prediction table to store results chosen by 
+the user and updated values within the CSV to represent branch predictions.
+
+Our goal was to learn more about how a decision tree would perform 
+in predicting the initial application a user might choose when turning on a PC.
+
+How the Program Works:
+The table is loaded with data from four different users: Admin, Guest, User1, and User2,
+each containing different data. Every time they turn on the PC, the initial 
+application chosen by them is recorded.
+
+The decision tree takes this data and creates four different tables, and a prediction is made
+based on the number of occurrences the user has picked a specific program.
+
+You can update the list by acting as the user and clicking an application when a PC has started.
+For every button click, we assume that the PC has just started. The predicted decision tree has a
+predicted application and compares if the application chosen by you matches. It will
+update the queue as taken = 1 or not taken = 0, then update its data in the CSV.
+'''
+
 class BHTVisualizer:
+
+
     def __init__(self, root, num_entries):
         self.root = root
         self.root.title("Branch History Table Visualizer")
@@ -125,7 +156,7 @@ class BHTVisualizer:
                 df.loc[mask, 'Occurrences'] += 1
 
         df.to_csv("data.csv", index=False)
-        
+
         # Prepare data for training the decision tree
         features = filtered_df[['Category', 'Occurrences', 'User Profile']]
         target = filtered_df['Application']
