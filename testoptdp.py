@@ -12,6 +12,7 @@ class BHTVisualizer:
 
         # Initialize the BHT
         self.bht = self.initialize_bht(num_entries)
+        self.counter = 0
 
         # Create widgets
         self.title_label = tk.Label(root, text="Branch History Table Visualizer\n", font=("Helvetica", 10))
@@ -219,11 +220,21 @@ class BHTVisualizer:
             selected_application = "Microsoft Outlook"
         elif button_number == 10:
             selected_application = "Mozilla Thunderbird"
-        
+
+        # Increment a counter from 0 to num_entries
+        counter = self.counter % len(self.bht)
+        self.counter += 1
+
         if selected_application == predicted_application:
             print("Selected application matches the predicted application.")
+            self.update_bht(counter, 1)
+            self.predicted_bht()
+            self.actual_bht()
         else:
             print("Selected application does not match the predicted application.")
+            self.update_bht(counter, 0)
+            self.predicted_bht()
+            self.actual_bht()
 
 if __name__ == "__main__":
     root = tk.Tk()
