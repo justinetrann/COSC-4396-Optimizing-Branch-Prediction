@@ -54,36 +54,7 @@ class BHTVisualizer:
         self.subtitle_label = tk.Label(root, text="Start the program with a button click each time it's the user's first program launched", font=("Helvetica", 10), fg="blue")
         self.subtitle_label.pack(pady=10)
 
-        self.view_tree_button = tk.Button(root, text="Google Chrome")
-        self.view_tree_button.pack(pady=5)
-
-        self.view_tree_button = tk.Button(root, text="Microsoft Edge")
-        self.view_tree_button.pack(pady=5)
-
-        self.view_tree_button = tk.Button(root, text="Mozilla Firefox")
-        self.view_tree_button.pack(pady=5)
-
-        self.view_tree_button = tk.Button(root, text="Microsoft Word")
-        self.view_tree_button.pack(pady=5)
-
-        self.view_tree_button = tk.Button(root, text="Microsoft Excel")
-        self.view_tree_button.pack(pady=5)
-
-        self.view_tree_button = tk.Button(root, text="Microsoft PowerPoint")
-        self.view_tree_button.pack(pady=5)
-
-        self.view_tree_button = tk.Button(root, text="Windows Media Player")
-        self.view_tree_button.pack(pady=5)
-
-        self.view_tree_button = tk.Button(root, text="Spotify")
-        self.view_tree_button.pack(pady=5)
-
-        self.view_tree_button = tk.Button(root, text="Microsoft Outlook")
-        self.view_tree_button.pack(pady=5)
-
-        self.view_tree_button = tk.Button(root, text="Mozilla Thunderbird")
-        self.view_tree_button.pack(pady=5)
-
+        self.create_buttons()
         self.predicted_bht()
         self.actual_bht()
 
@@ -211,6 +182,40 @@ class BHTVisualizer:
         self.bht = self.initialize_bht(len(self.bht))
         self.predicted_bht()
         self.actual_bht()
+
+    def create_buttons(self):
+        button_texts = [
+            "Google Chrome", "Microsoft Edge", "Mozilla Firefox",
+            "Microsoft Word", "Microsoft Excel", "Microsoft PowerPoint",
+            "Windows Media Player", "Spotify", "Microsoft Outlook", "Mozilla Thunderbird"
+        ]
+
+        for i, text in enumerate(button_texts):
+            button = tk.Button(self.root, text=text, command=lambda i=i: self.on_button_click(i + 1))
+            button.pack(pady=5)
+
+    def on_button_click(self, button_number):
+        print(f"Button {button_number} clicked")
+        if button_number == 1:
+            print("Google Chrome is selected.")
+        elif button_number == 2:
+            print("Microsoft Edge is selected.")
+        elif button_number == 3:
+            print("Mozilla Firefox is selected.")
+        elif button_number == 4:
+            print("Microsoft Word is selected.")
+        elif button_number == 5:
+            print("Microsoft Excel is selected.")
+        elif button_number == 6:
+            print("Microsoft PowerPoint is selected.")
+        elif button_number == 7:
+            print("Windows Media Player is selected.")
+        elif button_number == 8:
+            print("Spotify is selected.")
+        elif button_number == 9:
+            print("Microsoft Outlook is selected.")
+        elif button_number == 10:
+            print("Mozilla Thunderbird is selected.")
 
 if __name__ == "__main__":
     root = tk.Tk()
