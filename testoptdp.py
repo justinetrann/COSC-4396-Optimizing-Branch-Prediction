@@ -2,7 +2,6 @@ import tkinter as tk
 from tkinter import ttk
 import pandas as pd
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.model_selection import train_test_split
 from sklearn.tree import plot_tree
 import matplotlib.pyplot as plt
 
@@ -34,6 +33,9 @@ class BHTVisualizer:
 
         self.legend_not_taken = tk.Label(root, text="Not Taken = 0", fg="red", font=("Helvetica", 10))
         self.legend_not_taken.pack(anchor=tk.W, padx=10)
+
+        self.predicted_label = tk.Label(root, text="Predicted Application:", font=("Helvetica", 10), fg="purple")
+        self.predicted_label.pack(anchor=tk.W, padx=10)
 
         # Setting Up Widget based on num_entries
         canvas_width = num_entries * (50 + 10)
@@ -130,6 +132,8 @@ class BHTVisualizer:
             plt.show()
 
         predicted_application = predictions[0]
+        self.predicted_label.config(text=f"Predicted Application: {predicted_application}")
+
 
     # Reactivates tree when button is clicked
     def button_click_handler(self):
